@@ -1,0 +1,44 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Circle 6 Automated Tests">
+
+  <listeners>
+    <listener class-name="com.apollo.utils.ExtentListener"/>
+  </listeners>
+
+  <test name="TC01 Home to Circle">
+    <classes>
+      <class name="com.apollo.tests.TC01_HomeToCircleTest"/>
+    </classes>
+  </test>
+
+  <test name="TC02 Sticky Nav">
+    <classes>
+      <class name="com.apollo.tests.TC02_StickyNavTest"/>
+    </classes>
+  </test>
+
+  <test name="TC03 Plan Info">
+    <classes>
+      <class name="com.apollo.tests.TC03_PlanInfoTest"/>
+    </classes>
+  </test>
+
+  <test name="TC04 Join Circle">
+    <classes>
+      <class name="com.apollo.tests.TC04_JoinCircleTest"/>
+    </classes>
+  </test>
+
+  <test name="TC05 Valid Login Excel">
+    <classes>
+      <class name="com.apollo.tests.TC05_ValidLoginExcelTest"/>
+    </classes>
+  </test>
+
+  <test name="TC06 Invalid Login Excel">
+    <classes>
+      <class name="com.apollo.tests.TC06_InvalidLoginExcelTest"/>
+    </classes>
+  </test>
+
+</suite>
