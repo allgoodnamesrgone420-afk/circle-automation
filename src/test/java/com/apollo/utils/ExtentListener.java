@@ -7,6 +7,8 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.apollo.base.BaseTest;
+import com.apollo.utils.ScreenshotUtil;
 
 public class ExtentListener implements ITestListener {
     private static ExtentReports extent;
@@ -31,7 +33,15 @@ public class ExtentListener implements ITestListener {
     }
 
     public void onTestFailure(ITestResult result) {
+        String shot = ScreenshotUtil.takeScreenshot(
+                BaseTest.getDriver(), result.getMethod().getMethodName());
         test.get().log(Status.FAIL, result.getThrowable());
+        if (shot != null) {
+            try {
+                test.get().addScreenCaptureFromPath(shot);
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     public void onFinish(ITestContext context) {

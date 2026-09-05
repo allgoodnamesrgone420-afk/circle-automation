@@ -7,8 +7,8 @@ import com.apollo.pages.*;
 public class TC03_PlanInfoTest extends BaseTest {
 	@Test(description = "TC_AUTO_03 Positive - plans, prices, radio/card clicks")
 	public void planPricesAndOptions() {
-	    new HomePage(driver).goToCircleMembership();
-	    CircleLandingPage page = new CircleLandingPage(driver);
+	    new HomePage(getDriver()).goToCircleMembership();
+	    CircleLandingPage page = new CircleLandingPage(getDriver());
 
 	    Assert.assertTrue(page.isPlanVisible(), "12 Months plan missing");
 	    Assert.assertTrue(page.is199Visible(), "₹199 missing");

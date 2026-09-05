@@ -7,13 +7,13 @@ import com.apollo.pages.*;
 public class TC04_JoinCircleTest extends BaseTest {
     @Test(description = "TC_AUTO_04 Positive - Join Circle next step, no payment")
     public void joinCircleNoPayment() {
-        new HomePage(driver).goToCircleMembership();
-        CircleLandingPage page = new CircleLandingPage(driver);
+        new HomePage(getDriver()).goToCircleMembership();
+        CircleLandingPage page = new CircleLandingPage(getDriver());
         Assert.assertTrue(page.isJoinVisible());
         page.clickJoinCircle();
-        String url = driver.getCurrentUrl().toLowerCase();
+        String url = getDriver().getCurrentUrl().toLowerCase();
         Assert.assertFalse(url.contains("success") || url.contains("thank"));
-        Assert.assertTrue(new LoginOverlayPage(driver).isOpen()
+        Assert.assertTrue(new LoginOverlayPage(getDriver()).isOpen()
                 || page.pageHas("Plan") || page.pageHas("Login"));
     }
 }

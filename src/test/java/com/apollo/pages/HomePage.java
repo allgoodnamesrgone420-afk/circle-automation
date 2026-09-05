@@ -31,6 +31,8 @@ public class HomePage {
         } catch (Exception e) {
             js.executeScript("arguments[0].click();", circleCssLink);
         }
-        try { Thread.sleep(1500); } catch (InterruptedException ignored) {}
+        try {
+        	Thread.sleep(1500); 
+        	} catch (InterruptedException ignored) {}
     }
 }

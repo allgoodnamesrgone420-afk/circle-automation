@@ -8,8 +8,8 @@ import com.apollo.pages.CircleLandingPage;
 public class TC02_StickyNavTest extends BaseTest {
     @Test(description = "TC_AUTO_02 Positive - sticky bar navigation")
     public void stickyBarNavigation() {
-        new HomePage(driver).goToCircleMembership();
-        CircleLandingPage page = new CircleLandingPage(driver);
+        new HomePage(getDriver()).goToCircleMembership();
+        CircleLandingPage page = new CircleLandingPage(getDriver());
         page.clickBenefits();
         Assert.assertTrue(page.pageHas("Benefit"));
         page.clickPlans();

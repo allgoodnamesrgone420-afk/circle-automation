@@ -16,16 +16,16 @@ public class TC05_ValidLoginExcelTest extends BaseTest {
 
     @Test(dataProvider = "validMobile", description = "TC_AUTO_05 Positive - valid mobile from Excel")
     public void validLoginFromExcel(String id, String type, String mobile, String expected) {
-    	new HomePage(driver).goToCircleMembership();
+    	new HomePage(getDriver()).goToCircleMembership();
     	pause(2000);
 
-    	CircleLandingPage page = new CircleLandingPage(driver);
+    	CircleLandingPage page = new CircleLandingPage(getDriver());
     	page.clickLogin();
     	pause(3000);   // you should SEE the login popup now
 
-    	LoginOverlayPage login = new LoginOverlayPage(driver);
+    	LoginOverlayPage login = new LoginOverlayPage(getDriver());
     	Assert.assertTrue(login.isOpen(),
-    	        id + " overlay not open. URL=" + driver.getCurrentUrl());
+    	        id + " overlay not open. URL=" + getDriver().getCurrentUrl());
 
     	login.enterMobile(mobile);
     	pause(1500);   // you should SEE the number typed

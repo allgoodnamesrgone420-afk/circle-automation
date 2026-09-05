@@ -16,11 +16,11 @@ public class TC06_InvalidLoginExcelTest extends BaseTest {
 
     @Test(dataProvider = "invalidMobile", description = "TC_AUTO_06 Negative - empty/invalid mobile from Excel")
     public void invalidLoginFromExcel(String id, String type, String mobile, String expected) {
-        new HomePage(driver).goToCircleMembership();
-        CircleLandingPage page = new CircleLandingPage(driver);
+        new HomePage(getDriver()).goToCircleMembership();
+        CircleLandingPage page = new CircleLandingPage(getDriver());
         page.clickLogin();
         pause(2000);
-        LoginOverlayPage login = new LoginOverlayPage(driver);
+        LoginOverlayPage login = new LoginOverlayPage(getDriver());
         Assert.assertTrue(login.isOpen());
         login.enterMobile(mobile); // empty from Excel
         login.submit();

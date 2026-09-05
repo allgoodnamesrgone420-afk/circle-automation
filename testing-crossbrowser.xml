@@ -1,0 +1,21 @@
+<suite name="Circle Cross Browser" parallel="false">
+
+  <listeners>
+    <listener class-name="com.apollo.utils.ExtentListener"/>
+  </listeners>
+
+  <test name="Chrome">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="com.apollo.tests.TC01_HomeToCircleTest"/>
+    </classes>
+  </test>
+
+  <test name="Edge">
+    <parameter name="browser" value="edge"/>
+    <classes>
+      <class name="com.apollo.tests.TC01_HomeToCircleTest"/>
+    </classes>
+  </test>
+
+</suite>
