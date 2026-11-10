@@ -1,6 +1,7 @@
 package com.apollo.base;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -11,6 +12,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
@@ -31,22 +34,43 @@ public class BaseTest {
     @BeforeMethod
     public void setUp(@Optional("chrome") String browser) throws Exception {
         System.out.println("Starting browser = " + browser);
-        config.load(new FileInputStream("src/test/resources/config.properties"));
+        // Closed after loading (it used to leak one file handle per test).
+        try (InputStream in = new FileInputStream("src/test/resources/config.properties")) {
+            config.load(in);
+        }
 
         WebDriver driver;
         String name = browser.toLowerCase().trim();
+        // Run without a window on CI: mvn test -Dheadless=true
+        boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
 
         if (name.equals("edge")) {
             EdgeOptions options = new EdgeOptions();
             options.addArguments("--start-maximized");
             options.addArguments("--disable-notifications");
+            if (headless) {
+                options.addArguments("--headless=new", "--window-size=1920,1080");
+            }
             driver = new EdgeDriver(options);
-        } else {
+        } else if (name.equals("firefox")) {
+            FirefoxOptions options = new FirefoxOptions();
+            if (headless) {
+                options.addArguments("-headless");
+            }
+            driver = new FirefoxDriver(options);
+        } else if (name.equals("chrome")) {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--start-maximized");
             options.addArguments("--disable-notifications");
+            if (headless) {
+                options.addArguments("--headless=new", "--window-size=1920,1080");
+            }
             driver = new ChromeDriver(options);
+        } else {
+            // Any other name used to fall through to Chrome, so a "firefox"
+            // run passed while never opening Firefox.
+            throw new IllegalArgumentException("Unsupported browser: " + browser + " (use chrome, edge or firefox)");
         }
 
         driverBox.set(driver);
@@ -56,12 +80,16 @@ public class BaseTest {
         pause(1500);
     }
 
-    @AfterMethod
+    // alwaysRun: the browser is closed even when setUp or the test failed.
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
         WebDriver driver = getDriver();
         if (driver != null) {
-            driver.quit();
-            driverBox.remove();
+            try {
+                driver.quit();
+            } finally {
+                driverBox.remove();
+            }
         }
     }
 
@@ -78,7 +106,8 @@ public class BaseTest {
     protected void pause(long ms) {
         try {
             Thread.sleep(ms);
-        } catch (InterruptedException ignored) {
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 }

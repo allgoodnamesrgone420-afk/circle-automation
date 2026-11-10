@@ -1,0 +1,7 @@
+# Build output and generated reports: recreated on every run
+target/
+test-output/
+
+# OS / editor
+.DS_Store
+*.log
