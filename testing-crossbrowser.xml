@@ -18,4 +18,11 @@
     </classes>
   </test>
 
+  <test name="Firefox">
+    <parameter name="browser" value="firefox"/>
+    <classes>
+      <class name="com.apollo.tests.TC01_HomeToCircleTest"/>
+    </classes>
+  </test>
+
 </suite>
